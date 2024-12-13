@@ -1,7 +1,7 @@
 'use client'
 
-import AiTalkingAnimation from '@/components/AiTalkingAnimation'
 import Message from '@/components/Message'
+import TextAnimation from '@/components/TextAnimation'
 import { Conversation } from '@11labs/client'
 import { useParams } from 'next/navigation'
 import { useCallback, useEffect, useState } from 'react'
@@ -11,11 +11,11 @@ import { toast } from 'sonner'
 export default function () {
   const { slug } = useParams<{ slug: string }>()
   const [currentText, setCurrentText] = useState('')
-  const [isAudioPlaying, setIsAudioPlaying] = useState(false)
-  const [conversation, setConversation] = useState<Conversation | null>(null)
-  const [isConnected, setIsConnected] = useState(false)
   const [messages, setMessages] = useState<any[]>([])
+  const [isConnected, setIsConnected] = useState(false)
+  const [isAudioPlaying, setIsAudioPlaying] = useState(false)
   const [isTranscriptOpen, setIsTranscriptOpen] = useState(false)
+  const [conversation, setConversation] = useState<Conversation | null>(null)
   const loadConversation = () => {
     fetch(`/api/c?id=${slug}`)
       .then((res) => res.json())
@@ -126,7 +126,7 @@ export default function () {
           <span>Pulse</span>
         </a>
       </div>
-      <AiTalkingAnimation currentText={currentText} isAudioPlaying={isAudioPlaying} onStopListening={handleStopListening} onStartListening={handleStartListening} />
+      <TextAnimation currentText={currentText} isAudioPlaying={isAudioPlaying} onStopListening={handleStopListening} onStartListening={handleStartListening} />
       {messages.length > 0 && (
         <button className="text-sm fixed top-2 right-4 underline" onClick={() => setIsTranscriptOpen(!isTranscriptOpen)}>
           Show Transcript

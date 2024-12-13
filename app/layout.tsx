@@ -1,7 +1,7 @@
+import config from '@/lib/config'
 import type { Metadata } from 'next'
 import { Inter } from 'next/font/google'
 import { Toaster } from 'sonner'
-import config from '../lib/config'
 import './globals.css'
 
 const interFont = Inter({
@@ -29,11 +29,7 @@ export const metadata: Metadata = {
   },
 }
 
-export default function ({
-  children,
-}: Readonly<{
-  children: React.ReactNode
-}>) {
+export default function ({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
     <html lang="en">
       <body className={`${interFont.className} antialiased`}>

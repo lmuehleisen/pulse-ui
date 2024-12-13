@@ -7,7 +7,7 @@ export default {
     return [
       {
         source: '/',
-        destination: '/og_page',
+        destination: '/preview',
         has: [{ key: 'user-agent', type: 'header', value: allowedBots }],
       },
     ]
