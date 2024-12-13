@@ -103,6 +103,15 @@ export default function () {
   }, [slug])
   return (
     <main>
+      <div className="fixed top-2 left-2 flex flex-row gap-x-2 items-center">
+        <a href="https://neon.tech" target="_blank">
+          <img loading="lazy" decoding="async" src="https://neon.tech/brand/neon-logo-light-color.svg" width="158" height="48" className="h-[30px] w-auto" alt="Neon Logo" />
+        </a>
+        <span className="text-gray-400">/</span>
+        <a href="/">
+          <span>Pulse</span>
+        </a>
+      </div>
       <AiTalkingAnimation currentText={currentText} isAudioPlaying={isAudioPlaying} onStopListening={handleStopListening} onStartListening={handleStartListening} />
       {messages.length > 0 && (
         <button className="text-sm fixed top-2 right-4 underline" onClick={() => setIsTranscriptOpen(!isTranscriptOpen)}>

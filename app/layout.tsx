@@ -1,8 +1,8 @@
 import type { Metadata } from 'next'
 import { Inter } from 'next/font/google'
-import './globals.css'
-import config from '../lib/config'
 import { Toaster } from 'sonner'
+import config from '../lib/config'
+import './globals.css'
 
 const interFont = Inter({
   subsets: ['latin'],
