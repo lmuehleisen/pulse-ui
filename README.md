@@ -2,7 +2,7 @@
 
 A modern, interactive AI conversation interface built with Next.js, Neon and ElevenLabs. This application provides a seamless way to have voice conversations with an AI assistant and sync them in your serverless Postgres.
 
-<img width="1121" src="https://github.com/user-attachments/assets/1267a85c-d35a-4779-8d7f-a07f4aa1ec7a" />
+<img src="https://github.com/user-attachments/assets/1267a85c-d35a-4779-8d7f-a07f4aa1ec7a" />
 
 ## 🌟 Features
 
