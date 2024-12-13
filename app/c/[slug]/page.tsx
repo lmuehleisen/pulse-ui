@@ -108,11 +108,11 @@ export default function () {
       </a>
       <span className="fixed bottom-2 left-2">
         Powered by{' '}
-        <a href="https://neon.tech/" target="_blank">
+        <a href="https://neon.tech/" className="underline" target="_blank">
           Neon
         </a>{' '}
         and{' '}
-        <a href="https://elevenlabs.io/" target="_blank">
+        <a href="https://elevenlabs.io/" className="underline" target="_blank">
           ElevenLabs
         </a>
         .
