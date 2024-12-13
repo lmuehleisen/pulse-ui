@@ -6,7 +6,7 @@ export default {
   async rewrites() {
     return [
       {
-        source: '/:match*',
+        source: '/',
         destination: '/og_page',
         has: [{ key: 'user-agent', type: 'header', value: allowedBots }],
       },
