@@ -5,7 +5,7 @@ import Message from '@/components/Message'
 import { Conversation } from '@11labs/client'
 import { useParams } from 'next/navigation'
 import { useCallback, useEffect, useState } from 'react'
-import { X } from 'react-feather'
+import { GitHub, X } from 'react-feather'
 import { toast } from 'sonner'
 
 export default function () {
@@ -103,6 +103,20 @@ export default function () {
   }, [slug])
   return (
     <main>
+      <a target="_blank" href="https://github.com/neondatabase-labs/voice-thingy-with-elevenlabs-neon/" className="fixed bottom-2 right-2">
+        <GitHub />
+      </a>
+      <span className="fixed bottom-2 left-2">
+        Powered by{' '}
+        <a href="https://neon.tech/" target="_blank">
+          Neon
+        </a>{' '}
+        and{' '}
+        <a href="https://elevenlabs.io/" target="_blank">
+          ElevenLabs
+        </a>
+        .
+      </span>
       <div className="fixed top-2 left-2 flex flex-row gap-x-2 items-center">
         <a href="https://neon.tech" target="_blank">
           <img loading="lazy" decoding="async" src="https://neon.tech/brand/neon-logo-light-color.svg" width="158" height="48" className="h-[30px] w-auto" alt="Neon Logo" />
