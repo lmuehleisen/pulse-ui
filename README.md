@@ -88,3 +88,8 @@ This project is licensed under the MIT License - see the LICENSE file for detail
 - [Framer Motion](https://www.framer.com/motion/)
 - [Tailwind CSS](https://tailwindcss.com/)
 - [Neon Database](https://neon.tech/)
+
+# Authors
+
+- Raouf Chebri ([@raoufdevrel](https://twitter.com/raoufdevrel))
+- Rishi Raj Jain ([@rishi_raj_jain_](https://twitter.com/rishi_raj_jain_))
