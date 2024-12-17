@@ -55,10 +55,6 @@ npm run dev
 
 - `/app` - Next.js app directory containing routes and layouts
 - `/components` - Reusable React components
-- `/hooks` - Custom React hooks
-- `/lib` - Utility functions and shared logic
-- `/public` - Static assets
-- `/styles` - Global styles and Tailwind configuration
 
 ## 🔑 Environment Variables
 
