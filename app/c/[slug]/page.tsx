@@ -2,7 +2,7 @@
 
 import Message from '@/components/Message'
 import TextAnimation from '@/components/TextAnimation'
-import { Conversation } from '@11labs/client'
+import { useConversation } from '@11labs/react'
 import { useParams } from 'next/navigation'
 import { useCallback, useEffect, useState } from 'react'
 import { GitHub, X } from 'react-feather'
@@ -12,10 +12,7 @@ export default function () {
   const { slug } = useParams<{ slug: string }>()
   const [currentText, setCurrentText] = useState('')
   const [messages, setMessages] = useState<any[]>([])
-  const [isConnected, setIsConnected] = useState(false)
-  const [isAudioPlaying, setIsAudioPlaying] = useState(false)
   const [isTranscriptOpen, setIsTranscriptOpen] = useState(false)
-  const [conversation, setConversation] = useState<Conversation | null>(null)
   const loadConversation = () => {
     fetch(`/api/c?id=${slug}`)
       .then((res) => res.json())
@@ -33,6 +30,35 @@ export default function () {
         }
       })
   }
+  const conversation = useConversation({
+    onConnect: () => {
+      toast('Connected to ElevenLabs.')
+    },
+    onError: (error) => {
+      console.log(error)
+      toast('An error occurred during the conversation :/')
+    },
+    onMessage: (props) => {
+      console.log(props)
+      const { message, source } = props
+      if (source === 'ai') setCurrentText(message)
+      fetch('/api/c', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          id: slug,
+          item: {
+            type: 'message',
+            status: 'completed',
+            object: 'realtime.item',
+            id: 'item_' + Math.random(),
+            role: source === 'ai' ? 'assistant' : 'user',
+            content: [{ type: 'text', transcript: message }],
+          },
+        }),
+      }).then(loadConversation)
+    },
+  })
   const connectConversation = useCallback(async () => {
     toast('Setting up ElevenLabs...')
     try {
@@ -42,65 +68,25 @@ export default function () {
       })
       const data = await response.json()
       if (data.error) return toast(data.error)
-      const conv = await Conversation.startSession({
-        signedUrl: data.apiKey,
-        onConnect: () => {
-          setIsConnected(true)
-          toast('Connected to ElevenLabs')
-        },
-        onDisconnect: () => {
-          setIsConnected(false)
-          setIsAudioPlaying(false)
-        },
-        onError: (error) => {
-          console.log(error)
-          toast('An error occurred during the conversation')
-        },
-        onModeChange: ({ mode }) => {
-          setIsAudioPlaying(mode === 'speaking')
-        },
-        onMessage: ({ message, source }) => {
-          if (source === 'ai') setCurrentText(message)
-          fetch('/api/c', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({
-              id: slug,
-              item: {
-                type: 'message',
-                status: 'completed',
-                object: 'realtime.item',
-                id: 'item_' + Math.random(),
-                role: source === 'ai' ? 'assistant' : 'user',
-                content: [{ type: 'text', transcript: message }],
-              },
-            }),
-          }).then(loadConversation)
-        },
-      })
-      setConversation(conv)
+      await conversation.startSession({ signedUrl: data.apiKey })
     } catch (error) {
       toast('Failed to set up ElevenLabs client :/')
     }
-  }, [slug])
+  }, [slug, conversation])
   const disconnectConversation = useCallback(async () => {
-    setIsConnected(false)
-    if (!conversation) return
     await conversation.endSession()
-    setConversation(null)
-  }, [conversation])
+  }, [slug, conversation])
   const handleStartListening = () => {
-    if (!isConnected) connectConversation()
+    if (conversation.status !== 'connected') connectConversation()
   }
   const handleStopListening = () => {
-    if (isConnected) disconnectConversation()
+    if (conversation.status === 'connected') disconnectConversation()
   }
   useEffect(() => {
-    loadConversation()
     return () => {
-      conversation?.endSession()
+      disconnectConversation()
     }
-  }, [slug])
+  }, [slug, conversation])
   return (
     <main>
       <a target="_blank" href="https://github.com/neondatabase-labs/voice-thingy-with-elevenlabs-neon/" className="fixed bottom-2 right-2">
@@ -126,7 +112,7 @@ export default function () {
           <span>Pulse</span>
         </a>
       </div>
-      <TextAnimation currentText={currentText} isAudioPlaying={isAudioPlaying} onStopListening={handleStopListening} onStartListening={handleStartListening} />
+      <TextAnimation currentText={currentText} isAudioPlaying={conversation.isSpeaking} onStopListening={handleStopListening} onStartListening={handleStartListening} />
       {messages.length > 0 && (
         <button className="text-sm fixed top-2 right-4 underline" onClick={() => setIsTranscriptOpen(!isTranscriptOpen)}>
           Show Transcript
