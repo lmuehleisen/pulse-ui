@@ -10,8 +10,6 @@
   "dependencies": {
     "@11labs/client": "^0.0.4",
     "@neondatabase/serverless": "^0.10.4",
-    "class-variance-authority": "^0.7.1",
-    "clsx": "^2.1.1",
     "framer-motion": "^11.13.5",
     "motion": "^11.11.17",
     "next": "15.1.0",
