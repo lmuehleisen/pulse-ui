@@ -4,7 +4,7 @@ import Message from '@/components/Message'
 import TextAnimation from '@/components/TextAnimation'
 import { type Role, useConversation } from '@11labs/react'
 import { useParams } from 'next/navigation'
-import { useCallback, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import { GitHub, X } from 'react-feather'
 import { toast } from 'sonner'
 
