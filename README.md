@@ -26,28 +26,27 @@ A modern, interactive AI conversation interface built with Next.js, Neon and Ele
 1. Clone the repository:
 
 ```bash
-git clone https://github.com/neondatabase-labs/voice-thingy-with-elevenlabs-neon
-cd voice-thingy-with-elevenlabs-neon
+git clone https://github.com/neondatabase-labs/pulse
+cd pulse
 ```
 
-2. Run `pnpm install` and `pnpm schema` to install dependencies and set the relevant schema in your Neon database.
+2. Run `npm install` and `npm run schema` to install dependencies and set the relevant schema in your Neon database.
 
 3. Create a `.env` file in the root directory with the following variables:
 
 ```bash
+# Grab Agent ID from https://elevenlabs.io/app/conversational-ai
+AGENT_ID="..."
+# Grab API Key from https://elevenlabs.io/app/settings/api-keys
+XI_API_KEY="..."
 # Grab a connection string from https://console.neon.tech
 DATABASE_URL="postgresql://neondb_owner:...@ep-...us-east-1.aws.neon.tech/neondb?sslmode=require"
-
-# Grab Agent ID from https://elevenlabs.io/app/conversational-ai
-AGENT_ID="sk-xlKWNORh5P4zOneLDeYq78VQqed9WBmIKSHddl7WDbHXh107"
-# Grab API Key from https://elevenlabs.io/app/settings/api-keys
-XI_API_KEY="sk-xlKWNORh5P4zOneLDeYq78VQqed9WBmIKSHddl7WDbHXh107"
 ```
 
 4. Run the development server:
 
 ```bash
-pnpm dev
+npm run dev
 ```
 
 5. Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
