@@ -2,14 +2,14 @@
 
 import Message from '@/components/Message'
 import TextAnimation from '@/components/TextAnimation'
-import { useConversation } from '@11labs/react'
+import { type Role, useConversation } from '@11labs/react'
 import { useParams } from 'next/navigation'
-import { useCallback, useEffect, useState } from 'react'
+import { useCallback, useState } from 'react'
 import { GitHub, X } from 'react-feather'
 import { toast } from 'sonner'
 
 export default function () {
-  const { slug } = useParams<{ slug: string }>()
+  const { slug } = useParams()
   const [currentText, setCurrentText] = useState('')
   const [messages, setMessages] = useState<any[]>([])
   const [isTranscriptOpen, setIsTranscriptOpen] = useState(false)
@@ -32,14 +32,14 @@ export default function () {
   }
   const conversation = useConversation({
     onConnect: () => {
+      console.log('Connected.')
       toast('Connected to ElevenLabs.')
     },
-    onError: (error) => {
+    onError: (error: string) => {
       console.log(error)
       toast('An error occurred during the conversation :/')
     },
-    onMessage: (props) => {
-      console.log(props)
+    onMessage: (props: { message: string; source: Role }) => {
       const { message, source } = props
       if (source === 'ai') setCurrentText(message)
       fetch('/api/c', {
@@ -62,6 +62,8 @@ export default function () {
   const connectConversation = useCallback(async () => {
     toast('Setting up ElevenLabs...')
     try {
+      // Request microphone permission
+      await navigator.mediaDevices.getUserMedia({ audio: true })
       const response = await fetch('/api/i', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -72,21 +74,21 @@ export default function () {
     } catch (error) {
       toast('Failed to set up ElevenLabs client :/')
     }
-  }, [slug, conversation])
+  }, [conversation])
   const disconnectConversation = useCallback(async () => {
     await conversation.endSession()
-  }, [slug, conversation])
+  }, [conversation])
   const handleStartListening = () => {
     if (conversation.status !== 'connected') connectConversation()
   }
   const handleStopListening = () => {
     if (conversation.status === 'connected') disconnectConversation()
   }
-  useEffect(() => {
-    return () => {
-      disconnectConversation()
-    }
-  }, [slug, conversation])
+  // useEffect(() => {
+  //   return () => {
+  //     disconnectConversation()
+  //   }
+  // }, [slug])
   return (
     <main>
       <a target="_blank" href="https://github.com/neondatabase-labs/voice-thingy-with-elevenlabs-neon/" className="fixed bottom-2 right-2">

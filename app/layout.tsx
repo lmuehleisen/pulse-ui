@@ -1,4 +1,3 @@
-import config from '@/lib/config'
 import type { Metadata } from 'next'
 import { Inter } from 'next/font/google'
 import { Toaster } from 'sonner'
@@ -8,6 +7,12 @@ const interFont = Inter({
   subsets: ['latin'],
   display: 'swap',
 })
+
+const config = {
+  url: 'https://ai-pulse.vercel.app',
+  title: 'Voice led interactions with AI (powered by ElevenLabs)',
+  description: 'Voice led interactions with AI using Neon as the serverless database, and ElevenLabs as the Realtime conversation AI.',
+}
 
 const btoa = (str: string) => Buffer.from(str).toString('base64')
 const images = `https://neon.tech/docs/og?title=${btoa('Pulse')}&breadcrumb=${btoa(config.title)}`

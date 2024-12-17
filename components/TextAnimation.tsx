@@ -1,9 +1,17 @@
 'use client'
 
-import { AIState, Props } from '@/lib/types'
-import { useTypingEffect } from '@/lib/useTypingEffect'
+import { useTypingEffect } from '@/components/useTypingEffect'
 import { motion } from 'framer-motion'
 import { useEffect, useState } from 'react'
+
+type AIState = 'idle' | 'listening' | 'speaking'
+
+interface Props {
+  onStartListening?: () => void
+  onStopListening?: () => void
+  isAudioPlaying?: boolean
+  currentText: string
+}
 
 export default function AiTalkingAnimation({ onStartListening, onStopListening, isAudioPlaying, currentText }: Props) {
   const [aiState, setAiState] = useState<AIState>('idle')
