@@ -31,14 +31,8 @@ export default function () {
       })
   }
   const conversation = useConversation({
-    onConnect: () => {
-      console.log('Connected.')
-      toast('Connected to ElevenLabs.')
-    },
-    onError: (error: string) => {
-      console.log(error)
-      toast('An error occurred during the conversation :/')
-    },
+    onError: (error: string) => { toast(error) },
+    onConnect: () => { toast('Connected to ElevenLabs.') },
     onMessage: (props: { message: string; source: Role }) => {
       const { message, source } = props
       if (source === 'ai') setCurrentText(message)
@@ -62,7 +56,6 @@ export default function () {
   const connectConversation = useCallback(async () => {
     toast('Setting up ElevenLabs...')
     try {
-      // Request microphone permission
       await navigator.mediaDevices.getUserMedia({ audio: true })
       const response = await fetch('/api/i', {
         method: 'POST',
@@ -84,13 +77,13 @@ export default function () {
   const handleStopListening = () => {
     if (conversation.status === 'connected') disconnectConversation()
   }
-  // useEffect(() => {
-  //   return () => {
-  //     disconnectConversation()
-  //   }
-  // }, [slug])
+  useEffect(() => {
+    return () => {
+      disconnectConversation()
+    }
+  }, [slug])
   return (
-    <main>
+    <>
       <a target="_blank" href="https://github.com/neondatabase-labs/voice-thingy-with-elevenlabs-neon/" className="fixed bottom-2 right-2">
         <GitHub />
       </a>
@@ -137,6 +130,6 @@ export default function () {
           </div>
         </div>
       )}
-    </main>
+    </>
   )
 }
